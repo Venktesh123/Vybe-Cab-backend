@@ -29,8 +29,6 @@ export class Ride {
   @Column({ type: 'varchar', nullable: true })
   assignedDriverId: string | null;
 
-  // Driver ids already notified across all retry batches, so a retry never
-  // re-notifies someone who already ignored/missed this ride.
   @Column({ type: 'jsonb', default: () => "'[]'" })
   notifiedDriverIds: string[];
 
