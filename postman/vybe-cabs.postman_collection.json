@@ -1,0 +1,125 @@
+{
+  "info": {
+    "name": "vybe cabs - Driver Allocation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "driverId", "value": "" },
+    { "key": "rideId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Create Driver",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Asha\",\n  \"lat\": 12.9716,\n  \"lng\": 77.5946\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/drivers", "host": ["{{baseUrl}}"], "path": ["drivers"] }
+      }
+    },
+    {
+      "name": "List Drivers",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/drivers", "host": ["{{baseUrl}}"], "path": ["drivers"] }
+      }
+    },
+    {
+      "name": "Update Driver Location",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"lat\": 12.9720,\n  \"lng\": 77.5950\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/drivers/{{driverId}}/location",
+          "host": ["{{baseUrl}}"],
+          "path": ["drivers", "{{driverId}}", "location"]
+        }
+      }
+    },
+    {
+      "name": "Set Driver Status",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"AVAILABLE\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/drivers/{{driverId}}/status",
+          "host": ["{{baseUrl}}"],
+          "path": ["drivers", "{{driverId}}", "status"]
+        }
+      }
+    },
+    {
+      "name": "Create Ride",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"riderId\": \"rider-1\",\n  \"pickupLat\": 12.9716,\n  \"pickupLng\": 77.5946\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/rides", "host": ["{{baseUrl}}"], "path": ["rides"] }
+      }
+    },
+    {
+      "name": "Get Ride",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/rides/{{rideId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["rides", "{{rideId}}"]
+        }
+      }
+    },
+    {
+      "name": "Get Ride Notifications",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/rides/{{rideId}}/notifications",
+          "host": ["{{baseUrl}}"],
+          "path": ["rides", "{{rideId}}", "notifications"]
+        }
+      }
+    },
+    {
+      "name": "Get Ride State History",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/rides/{{rideId}}/history",
+          "host": ["{{baseUrl}}"],
+          "path": ["rides", "{{rideId}}", "history"]
+        }
+      }
+    },
+    {
+      "name": "Accept Ride",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"driverId\": \"{{driverId}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/rides/{{rideId}}/accept",
+          "host": ["{{baseUrl}}"],
+          "path": ["rides", "{{rideId}}", "accept"]
+        }
+      }
+    }
+  ]
+}

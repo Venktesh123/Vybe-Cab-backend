@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vybe-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: vybe
+      POSTGRES_PASSWORD: vybe_password
+      POSTGRES_DB: vybe_cabs
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vybe -d vybe_cabs"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: vybe-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vybe-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: vybe
+      POSTGRES_PASSWORD: vybe_password
+      POSTGRES_DB: vybe_cabs
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      PORT: 3000
+      DRIVER_SEARCH_RADIUS_KM: 5
+      DRIVERS_PER_BATCH: 3
+      ACCEPT_TIMEOUT_MS: 15000
+      MAX_ALLOCATION_RETRIES: 3
+    ports:
+      - "3000:3000"
+
+volumes:
+  pg_data:
