@@ -8,23 +8,3 @@ tsconfig.tsbuildinfo
 
 # Environment / secrets
 .env
-.env.local
-.env.*.local
-
-# Logs
-*.log
-npm-debug.log*
-nohup.out
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Editor / IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Test artifacts
-.nyc_output/
